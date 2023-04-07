@@ -12,11 +12,10 @@ export default function Home() {
 
   return (
     <main className="h-full w-full relative bg-no-repeat bg-center bg-fixed bg-cover bg-feast">
-      <div className="bg-black h-full w-full lg:bg-opacity-50">
+      <div className="bg-black h-full w-full lg:bg-opacity-60">
         <nav className="px-12 py-6">
           <div className="text-3xl lg:text-4xl font-bold text-white">
-            {' '}
-            Family Feast <span className="text-red-500">DB ♨️</span>
+            Family Feast <span className="text-[#E00000]">DB ♨️</span>
           </div>
         </nav>
         <div className="flex justify-center">
