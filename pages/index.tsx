@@ -5,9 +5,6 @@ import useCurrentUser from '@/hooks/useCurrentUser';
 
 export default function Home() {
   const { data: user } = useCurrentUser();
-  if (user) {
-    console.log(user);
-  }
 
   return (
     <main className="h-full w-full flex flex-col justify-center items-center bg-black text-white">
