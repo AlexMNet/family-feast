@@ -12,6 +12,9 @@ export default function Home() {
   return (
     <main className="h-full w-full flex flex-col justify-center items-center bg-black text-white">
       <div className="mt-8 max-w-xl flex flex-col p-8 rounded-md border justify-center items-center">
+        <div className="text-3xl lg:text-4xl font-bold text-white mb-6">
+          Family Feast <span className="text-[#E00000]">DB ♨️</span>
+        </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={user?.image}

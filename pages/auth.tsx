@@ -6,6 +6,18 @@ import { signIn } from 'next-auth/react';
 
 export default function Auth() {
   const [form, setForm] = useState('login');
+  const [loading, setLoading] = useState('');
+
+  const providerLogin = async (provider: string) => {
+    try {
+      setLoading(provider);
+      const res = await signIn(provider, { callbackUrl: '/' });
+      setLoading('');
+    } catch (error) {
+      setLoading('');
+      console.log(error);
+    }
+  };
 
   const toggleForm = useCallback(() => {
     setForm((current) => (current === 'login' ? 'register' : 'login'));
@@ -26,16 +38,24 @@ export default function Auth() {
             </h2>
             <div className="flex gap-4 mb-6 justify-center">
               <div
-                onClick={() => signIn('google', { callbackUrl: '/' })}
+                onClick={() => providerLogin('google')}
                 className="flex justify-center items-center bg-white w-10 h-10 rounded-full hover:cursor-pointer"
               >
-                <FcGoogle size={30} />
+                <FcGoogle
+                  size={30}
+                  className={` ${loading === 'google' ? 'animate-spin' : ''} `}
+                />
               </div>
               <div
-                onClick={() => signIn('github', { callbackUrl: '/' })}
+                onClick={() => providerLogin('github')}
                 className="flex justify-center items-center bg-white w-10 h-10 rounded-full hover:cursor-pointer"
               >
-                <FaGithub size={30} className="text-black" />
+                <FaGithub
+                  size={30}
+                  className={`text-black ${
+                    loading === 'github' ? 'animate-spin' : ''
+                  }`}
+                />
               </div>
               {/* <div
                 onClick={() => signIn('facebook', { callbackUrl: '/' })}
