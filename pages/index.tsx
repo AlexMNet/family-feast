@@ -1,51 +1,51 @@
-import { useState, useCallback } from 'react';
-import { FcGoogle } from 'react-icons/fc';
-import { FaGithub } from 'react-icons/fa';
-import { BsFacebook } from 'react-icons/bs';
+import { NextPageContext } from 'next';
+import { signOut, getSession } from 'next-auth/react';
+
+import useCurrentUser from '@/hooks/useCurrentUser';
 
 export default function Home() {
-  const [form, setForm] = useState('login');
-
-  const toggleForm = useCallback(() => {
-    setForm((current) => (current === 'login' ? 'register' : 'login'));
-  }, []);
+  const { data: user } = useCurrentUser();
+  if (user) {
+    console.log(user);
+  }
 
   return (
-    <main className="h-full w-full relative bg-no-repeat bg-center bg-fixed bg-cover bg-feast">
-      <div className="bg-black h-full w-full lg:bg-opacity-60">
-        <nav className="px-12 py-6">
-          <div className="text-3xl lg:text-4xl font-bold text-white">
-            Family Feast <span className="text-[#E00000]">DB ♨️</span>
-          </div>
-        </nav>
-        <div className="flex justify-center">
-          <div className="bg-black bg-opacity-70 p-16 w-full lg:max-w-md mt-32 rounded-md text-center">
-            <h2 className="text-slate-200 font-bold text-4xl mb-8">
-              {form === 'login' ? 'Login' : 'Sign Up'}
-            </h2>
-            <div className="flex gap-4 mb-6 justify-center">
-              <div className="flex justify-center items-center bg-white w-10 h-10 rounded-full hover:cursor-pointer">
-                <FcGoogle size={30} />
-              </div>
-              <div className="flex justify-center items-center bg-white w-10 h-10 rounded-full hover:cursor-pointer">
-                <FaGithub size={30} className="text-black" />
-              </div>
-              <div className="flex justify-center items-center bg-white w-10 h-10 rounded-full hover:cursor-pointer">
-                <BsFacebook size={30} className="text-blue-500" />
-              </div>
-            </div>
-            <p className="text-neutral-500">
-              {form === 'login' ? 'First time?' : 'Already have an account?'}
-              <span
-                onClick={toggleForm}
-                className="text-white ml-1 hover:underline cursor-pointer"
-              >
-                {form === 'login' ? 'Create an account' : 'Login'}
-              </span>
-            </p>
-          </div>
+    <main className="h-full w-full flex flex-col justify-center items-center bg-black text-white">
+      <div className="mt-8 max-w-xl flex flex-col p-8 rounded-md border justify-center items-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={user?.image}
+          alt="Profile"
+          className="w-24 h-24 rounded-full mb-6"
+        />
+        <div className="mb-4 text-center">
+          <h3 className="text-2xl font-bold mb-1">{user?.name}</h3>
+          <p className="font-thin">{user?.email}</p>
         </div>
+        <button
+          onClick={() => signOut()}
+          className="block bg-purple-500 rounded-lg px-4 py-2 hover:bg-opacity-90"
+        >
+          Sign out
+        </button>
       </div>
     </main>
   );
+}
+
+export async function getServerSideProps(ctx: NextPageContext) {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/auth',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 }
