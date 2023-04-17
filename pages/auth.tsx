@@ -3,10 +3,18 @@ import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
 import { BsFacebook } from 'react-icons/bs';
 import { signIn } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 export default function Auth() {
   const [form, setForm] = useState('login');
   const [loading, setLoading] = useState('');
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
+  if (session) {
+    router.replace('/');
+  }
 
   const providerLogin = async (provider: string) => {
     try {
