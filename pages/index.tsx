@@ -1,40 +1,22 @@
-import { NextPageContext } from 'next';
-import { signOut, getSession } from 'next-auth/react';
+import { GetServerSidePropsContext } from 'next';
+import { getSession } from 'next-auth/react';
+import Navbar from '@/components/Navbar';
+import { meals1, meals2 } from '@/data';
 
-import useCurrentUser from '@/hooks/useCurrentUser';
+import RecipeList from '@/components/RecipeList';
 
 export default function Home() {
-  const { data: user } = useCurrentUser();
-
   return (
-    <main className="h-full w-full flex flex-col justify-center items-center bg-black text-white">
-      <div className="mt-8 max-w-xl flex flex-col p-8 rounded-md border justify-center items-center">
-        <div className="text-3xl lg:text-4xl font-bold text-white mb-6">
-          Family Feast <span className="text-[#E00000]">DB ♨️</span>
-        </div>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={user?.image}
-          alt="Profile"
-          className="w-24 h-24 rounded-full mb-6"
-        />
-        <div className="mb-4 text-center">
-          <h3 className="text-2xl font-bold mb-1">{user?.name}</h3>
-          <p className="font-thin">{user?.email}</p>
-        </div>
-        <button
-          onClick={() => signOut()}
-          className="block bg-purple-500 rounded-lg px-4 py-2 hover:bg-opacity-90"
-        >
-          Sign out
-        </button>
-      </div>
-    </main>
+    <>
+      <Navbar />
+      <RecipeList data={meals1} title="The Aguero Family" />
+      <RecipeList data={meals2} title="The Maldonados" />
+    </>
   );
 }
 
-export async function getServerSideProps(ctx: NextPageContext) {
-  const session = await getSession(ctx);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getSession(context);
 
   if (!session) {
     return {
@@ -46,6 +28,6 @@ export async function getServerSideProps(ctx: NextPageContext) {
   }
 
   return {
-    props: {},
+    props: { user: session.user },
   };
 }
