@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 interface RecipeCardProps {
   data: {
@@ -12,8 +13,9 @@ interface RecipeCardProps {
 }
 
 const RecipeCard: React.FC<RecipeCardProps> = ({ data }) => {
+  console.log(data);
   return (
-    <div className="cursor-pointer ">
+    <Link href={`/recipe/id`} className="cursor-pointer ">
       <div className="relative overflow-hidden rounded-2xl">
         <img
           className="aspect-[16/9] w-full bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
@@ -47,7 +49,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ data }) => {
           <p className="text-sm text-white">by {data.userName}</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

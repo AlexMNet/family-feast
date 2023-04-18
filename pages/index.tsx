@@ -1,17 +1,16 @@
 import { GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/react';
-import Navbar from '@/components/Navbar';
+import Layout from '@/components/Layout';
 import { meals1, meals2 } from '@/data';
 
 import RecipeList from '@/components/RecipeList';
 
 export default function Home() {
   return (
-    <>
-      <Navbar />
+    <Layout>
       <RecipeList data={meals1} title="The Aguero Family" />
       <RecipeList data={meals2} title="The Maldonados" />
-    </>
+    </Layout>
   );
 }
 
