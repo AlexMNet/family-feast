@@ -1,4 +1,5 @@
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -7,7 +8,9 @@ const Navbar = () => {
     <nav className="w-full px-2 py-6 text-black">
       <div className="container mx-auto flex items-center justify-between">
         <div className="text-2xl font-bold text-white lg:text-4xl">
-          Family Feast <span className="text-[#E00000]">DB ♨️</span>
+          <Link href="/">
+            Family Feast <span className="text-[#E00000]">DB ♨️</span>
+          </Link>
         </div>
         <div className="cursor-pointer">
           <img
